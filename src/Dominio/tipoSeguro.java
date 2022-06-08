@@ -4,6 +4,7 @@ public class tipoSeguro {
 
 	private int idTipo;
 	private String Descripcion;
+	
 	@Override
 	public String toString() {
 		return "tipoSeguro [idTipo=" + idTipo + ", Descripcion=" + Descripcion + "]";

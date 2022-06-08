@@ -8,12 +8,14 @@
 </head>
 <body>
 
-<form action="">
-<a href="index.jsp" > Inicio</a>
-<a href="agregarseguro.jsp" > Agregar Seguro</a>
-<a href="listarseguros.jsp" > Listar Seguros</a>
-</form>
+<body>
 
+<a href="Inicio.jsp">Inicio</a>
+<a href="servletSeguro?Param=1">Agregar seguro</a>
+<a href="servletSeguro?listar=1">Listar seguros</a>
+
+<br>
+<br>
 <br>
 
 <b>Tipo de seguros de la base de datos</b>

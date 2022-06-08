@@ -37,7 +37,7 @@
 
 <table border=0 >
 <tr> <td> Id Seguro </td> <td><%=id%> </td> </tr>
-<tr> <td> Descripcion </td> <td> <input type="text" name="txtDescripcion"/> </td> </tr>
+<tr> <td> Descripcion </td> <td> <input type="text" name="txtDescripcion" required/> </td> </tr>
 <tr> <td>Tipo de seguro</td>  <td>  <select name="tipoSeguro">
 
 <% ArrayList<tipoSeguro> listaTipos = null;
@@ -55,8 +55,8 @@
 	%>
 
 	</select> </td> </tr> 
-<tr> <td>Costo contratacíon </td> <td> <input type="text" name="txtCContratacion"/> </td></tr>
-<tr><td>Costo máximo asegurado</td><td> <input type="text" name="txtMaximoAseg"/> </td></tr>
+<tr> <td>Costo contratacíon </td> <td> <input type="number" name="txtCContratacion" required/> </td></tr>
+<tr><td>Costo máximo asegurado</td><td> <input type="number" name="txtMaximoAseg" required/> </td></tr>
 <tr><td></td><td><input type="submit" name="btnAceptar" value="Aceptar"></td></tr>
 </table>
 </form>
