@@ -9,17 +9,14 @@
 <body>
 
 <form action="">
-<a href="index.jsp" > Inicio</a>
-<a href="agregarseguro.jsp" > Agregar Seguro</a>
-<a href="listarseguros.jsp" > Listar Seguros</a>
+<a href="Inicio.jsp">Inicio</a>
+<a href="servletSeguro?Param=1">Agregar seguro</a>
+<a href="servletSeguro?listar=1">Listar seguros</a>
 </form>
 
 
-<br>
-<br>
-<br>
+<h1>Soy la página de inicio</h1>
 
-<b>Soy la página de inicio</b>
 
 
 </body>

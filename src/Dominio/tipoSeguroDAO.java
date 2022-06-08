@@ -7,10 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import daolmpl.Conexion;
-import entidad.Persona;
-
-
 
 public class tipoSeguroDAO {
 
