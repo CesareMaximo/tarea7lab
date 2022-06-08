@@ -25,7 +25,7 @@ public class seguro {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public tipoSeguro getTipo() {
+	public tipoSeguro getIdTipo() {
 		return idTipo;
 	}
 	public void setIdTipo(tipoSeguro tipo) {

@@ -8,12 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
+
 public class seguroDAO {
 
 	private static final String insert = "INSERT INTO seguros(descripcion,idTipo,costoContratacion,costoAsegurado) VALUES(?, ?, ?,?)";
 	private static final String delete = "delete from seguros where idSeguro = ?";
-	private static final String readall = "SELECT * FROM seguros";
 	private static final String obtenerID = "SELECT idSeguro FROM seguros ORDER BY idSeguro DESC LIMIT 1";
+	private static final String listar = "SELECT S.idSeguro, S.descripcion, S.idTipo, S.costoContratacion, S.costoAsegurado, TP.descripcion AS des, TP.idTipo AS id FROM Seguros S inner join tiposeguros TP on S.IdTipo = TP.idTipo WHERE S.idTipo=?";
+	private static final String readall = "SELECT S.idSeguro, S.descripcion, S.idTipo, S.costoContratacion, S.costoAsegurado, TP.descripcion AS des, TP.idTipo AS id FROM Seguros S inner join tiposeguros TP on S.IdTipo = TP.idTipo";
+	
 
 	public boolean agregarSeguro(seguro se) {
 
@@ -23,7 +26,7 @@ public class seguroDAO {
 		try {
 			statement = conexion.prepareStatement(insert);
 			statement.setString(1, se.getDescripcion());
-			statement.setInt(2, se.getTipo().getIdTipo());
+			statement.setInt(2, se.getIdTipo().getIdTipo());
 			statement.setFloat(3, se.getCostoContratacion());
 			statement.setFloat(4, se.getCostoAsegurado());
 			if (statement.executeUpdate() > 0) {
@@ -94,4 +97,76 @@ public class seguroDAO {
 
 	}
 
+	public ArrayList<seguro> obtenerTodosLosSegurosPorId(int idTipo)
+	{
+		
+		ArrayList<seguro> lista = new ArrayList<seguro>(); 
+		Conexion conexion = Conexion.getConexion();
+		
+		try
+		{
+			
+			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(listar);
+			statement.setInt(1, idTipo);
+			ResultSet rs = statement.executeQuery();
+
+			while(rs.next())
+			{
+				seguro sg =new seguro();
+				tipoSeguro ts = new tipoSeguro();
+				sg.setIdSeguro(rs.getInt("idSeguro"));
+				sg.setDescripcion(rs.getString("descripcion"));
+				ts.setIdTipo(rs.getInt("id"));
+				ts.setDescripcion(rs.getString("des"));
+				sg.setIdTipo(ts);
+				sg.setCostoContratacion(rs.getFloat("costoContratacion"));
+				sg.setCostoAsegurado(rs.getFloat("costoAsegurado"));
+				lista.add(sg);
+			}
+			 
+		  }
+		  catch (Exception e) {
+			e.printStackTrace();
+		}
+		  return lista;
+	}
+	
+	public ArrayList<seguro> obtenerTodosLosSeguros()
+	{
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		ArrayList<seguro> lista = new ArrayList<seguro>(); 
+		Conexion conexion = Conexion.getConexion();
+		
+		  try
+		  {
+
+			  PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readall);
+			 ResultSet rs = statement.executeQuery();
+
+			while(rs.next())
+			{
+				seguro sg =new seguro();
+				tipoSeguro ts = new tipoSeguro();
+				sg.setIdSeguro(rs.getInt("idSeguro"));
+				sg.setDescripcion(rs.getString("descripcion"));
+				ts.setIdTipo(rs.getInt("id"));
+				ts.setDescripcion(rs.getString("des"));
+				sg.setIdTipo(ts);
+				sg.setCostoContratacion(rs.getFloat("costoContratacion"));
+				sg.setCostoAsegurado(rs.getFloat("costoAsegurado"));
+				lista.add(sg);
+			}
+			 
+		  }
+		  catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		  return lista;
+	}
 }

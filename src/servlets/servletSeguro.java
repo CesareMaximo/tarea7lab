@@ -16,6 +16,7 @@ import Dominio.tipoSeguro;
 import Dominio.tipoSeguroDAO;
 
 
+
 @WebServlet("/servletSeguro")
 public class servletSeguro extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,21 +31,34 @@ public class servletSeguro extends HttpServlet {
 		
 		tipoSeguroDAO tsdao = new tipoSeguroDAO();
 		ArrayList<tipoSeguro> lista = (ArrayList<tipoSeguro>) tsdao.obtenerTipoSeguro();
+		
+		seguroDAO sdao = new seguroDAO();
+		
+		ArrayList<seguro> listaSeguro= (ArrayList<seguro>)sdao.obtenerTodosLosSeguros();
+		
+		request.setAttribute("listaSeg", listaSeguro);
+		RequestDispatcher rd;
 
 		if (request.getParameter("Param") != null) {
 
 			request.setAttribute("listaTS", lista);
 
-			seguroDAO sdao = new seguroDAO();
 
 			int ultID = sdao.obtenerID() + 1;
 			request.setAttribute("proxID", ultID);
 
-			RequestDispatcher rd = request.getRequestDispatcher("/agregarSeguro.jsp");
+			rd = request.getRequestDispatcher("/agregarSeguro.jsp");
 			rd.forward(request, response);
 
 		}
+		
+		if (request.getParameter("listar") != null) {
+			request.setAttribute("listaTS", lista);
 
+
+			rd = request.getRequestDispatcher("/ListarSeguros.jsp");
+			rd.forward(request, response);
+		}
 	
 	}
 
@@ -54,6 +68,9 @@ public class servletSeguro extends HttpServlet {
 		tipoSeguroDAO tsdao = new tipoSeguroDAO();
 		ArrayList<tipoSeguro> lista = (ArrayList<tipoSeguro>) tsdao.obtenerTipoSeguro();
 		request.setAttribute("listaTS", lista);
+		seguroDAO sdao = new seguroDAO();
+
+		RequestDispatcher rd;
 		if (request.getParameter("btnAceptar") != null) {
 			
 			seguro seg = new seguro();
@@ -64,7 +81,6 @@ public class servletSeguro extends HttpServlet {
 			seg.setCostoContratacion(Float.parseFloat(request.getParameter("txtCContratacion")));
 			seg.setCostoAsegurado(Float.parseFloat(request.getParameter("txtMaximoAseg")));
 
-			seguroDAO sdao = new seguroDAO();
 
 			boolean insert = sdao.agregarSeguro(seg);
 			request.setAttribute("insert", insert);
@@ -72,9 +88,23 @@ public class servletSeguro extends HttpServlet {
 			int ultID = sdao.obtenerID() + 1;
 			request.setAttribute("proxID", ultID);
 
-			RequestDispatcher rd = request.getRequestDispatcher("/agregarSeguro.jsp");
+			rd = request.getRequestDispatcher("/agregarSeguro.jsp");
 			rd.forward(request, response);
 		}
+		
+		if(request.getParameter("btnFiltrar")!=null)
+		{
+			request.setAttribute("listar", 1);
+			int id = Integer.parseInt(request.getParameter("tipo").toString());
+			ArrayList<seguro> listaS= (ArrayList<seguro>)sdao.obtenerTodosLosSegurosPorId(id);
+			
+			request.setAttribute("listaSeg", listaS);
+			request.setAttribute("listaTS", lista);
+			rd = request.getRequestDispatcher("/ListarSeguros.jsp");  
+			rd.forward(request, response);
+			
+		}
+		
 	}
 
 }
